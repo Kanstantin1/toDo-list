@@ -32,6 +32,8 @@ form.addEventListener('submit', function (event) {
 	taskInput.value = "";
 	taskInput.focus();
 
+
+	// если есть задачи, то скроем список пуст
 	if (tasksList.children.length > 1) {
 		emptyList.classList.add('none')
 	}
