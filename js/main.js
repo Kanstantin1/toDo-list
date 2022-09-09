@@ -1,7 +1,8 @@
 // найдем элементы на странице
 const form = document.querySelector('#form');
 const taskInput = document.querySelector('#taskInput');
-const tasksList = document.querySelector('#tasksList')
+const tasksList = document.querySelector('#tasksList');
+const emptyList = document.querySelector('#emptyList');
 
 form.addEventListener('submit', function (event) {
 	//отменяем отправку формы
@@ -30,4 +31,8 @@ form.addEventListener('submit', function (event) {
 	//очищаем форму для ввода и возвращаем на него фокус
 	taskInput.value = "";
 	taskInput.focus();
+
+	if (tasksList.children.length > 1) {
+		emptyList.classList.add('none')
+	}
 })
