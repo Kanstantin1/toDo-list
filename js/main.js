@@ -8,6 +8,10 @@ form.addEventListener('submit', addTask)
 tasksList.addEventListener('click', deleteTask)
 tasksList.addEventListener('click', doneTask)
 
+if (localStorage.getItem('taskHTML')) {
+	tasksList.innerHTML = localStorage.getItem('taskHTML');
+};
+
 // функции
 
 function addTask(event) {
@@ -43,6 +47,8 @@ function addTask(event) {
 	if (tasksList.children.length > 1) {
 		emptyList.classList.add('none')
 	}
+
+	saveHTMLtoLS()
 }
 
 function deleteTask(e) {
@@ -58,6 +64,8 @@ function deleteTask(e) {
 	if (tasksList.children.length === 1) {
 		emptyList.classList.remove('none')
 	}
+
+	saveHTMLtoLS()
 }
 
 function doneTask(event) {
@@ -69,4 +77,10 @@ function doneTask(event) {
 	const parentNode = event.target.closest('.list-group-item');
 	const taskTitle = parentNode.querySelector('.task-title');
 	taskTitle.classList.toggle('task-title--done');
+
+	saveHTMLtoLS()
+}
+// Local Storage
+function saveHTMLtoLS() {
+	localStorage.setItem('taskHTML', tasksList.innerHTML)
 }
