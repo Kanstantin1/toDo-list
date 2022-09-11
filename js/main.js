@@ -4,6 +4,8 @@ const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
+let tasks = [];
+
 form.addEventListener('submit', addTask)
 tasksList.addEventListener('click', deleteTask)
 tasksList.addEventListener('click', doneTask)
@@ -17,10 +19,22 @@ function addTask(event) {
 	// достаем текст задачи из инпута
 	const taskText = taskInput.value;
 
+	const newTask = {
+		id: Date.now(),
+		text: taskText,
+		done: false,
+	};
+
+	//добавляем задачу в массив задач
+	tasks.push(newTask);
+
+	// формируем css класс для выполненных задач
+	const cssClass = newTask.done ? 'task-title task-title--done' : 'task-title';
+
 	//формируем разметку для новой задачи 
 	const taskHTML = `
-	<li class="list-group-item d-flex justify-content-between task-item">
-					<span class="task-title">${taskText}</span>
+	<li id='${newTask.id}' class="list-group-item d-flex justify-content-between task-item">
+					<span class=${cssClass}>${newTask.text}</span>
 					<div class="task-item__buttons">
 						<button type="button" data-action="done" class="btn-action">
 							<img src="./img/tick.svg" alt="Done" width="18" height="18">
@@ -54,6 +68,15 @@ function deleteTask(e) {
 	const parentNode = e.target.closest('.list-group-item');
 	parentNode.remove()
 
+	// определяем ID задачи
+	const id = Number(parentNode.id);
+
+	//найдем индекс задачи в массиве
+	const index = tasks.findIndex((task) => task.id === id);
+
+	// удаляем задачу из массива задач
+	tasks.splice(index, 1);
+
 	// если удалили задачи, то вернем список пуст
 	if (tasksList.children.length === 1) {
 		emptyList.classList.remove('none')
@@ -67,6 +90,12 @@ function doneTask(event) {
 	}
 	//проверка, что клик был по кнопке "задача выполнена"
 	const parentNode = event.target.closest('.list-group-item');
+
+	//определим ID задачи
+	const id = Number(parentNode.id);
+	const task = tasks.find((task) => task.id === id);
+	task.done = !task.done
+
 	const taskTitle = parentNode.querySelector('.task-title');
 	taskTitle.classList.toggle('task-title--done');
 }
