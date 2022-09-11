@@ -5,7 +5,7 @@ const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
 let tasks = [];
-checkEmptyList()
+checkEmptyList();
 
 form.addEventListener('submit', addTask)
 tasksList.addEventListener('click', deleteTask)
@@ -53,7 +53,7 @@ function addTask(event) {
 	taskInput.value = "";
 	taskInput.focus();
 
-	checkEmptyList()
+	checkEmptyList();
 }
 
 function deleteTask(e) {
@@ -74,7 +74,7 @@ function deleteTask(e) {
 	// удаляем задачу из массива задач
 	tasks.splice(index, 1);
 
-	checkEmptyList()
+	checkEmptyList();
 }
 
 function doneTask(event) {
@@ -103,7 +103,6 @@ function checkEmptyList() {
 		tasksList.insertAdjacentHTML('afterbegin', emptyListHTML);
 	} else if (tasks.length > 0) {
 		const emptyListElement = document.querySelector('#emptyList');
-		emptyList ? emptyList.remove() : null;
+		emptyListElement ? emptyListElement.remove() : null;
 	}
-
 }
