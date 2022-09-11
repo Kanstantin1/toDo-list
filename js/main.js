@@ -4,14 +4,8 @@ const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
-
-// добавление задачи 
 form.addEventListener('submit', addTask)
-
-//удаление задачи
 tasksList.addEventListener('click', deleteTask)
-
-// отметка о завершение задачи
 tasksList.addEventListener('click', doneTask)
 
 // функции
@@ -52,13 +46,13 @@ function addTask(event) {
 }
 
 function deleteTask(e) {
-
-	if (e.target.dataset.action === 'delete') {
-
-		const parentNode = e.target.closest('.list-group-item');
-		console.log(parentNode);
-		parentNode.remove()
+	// проверяем что клик был НЕ по кнопке удалить 
+	if (e.target.dataset.action !== 'delete') {
+		return
 	}
+
+	const parentNode = e.target.closest('.list-group-item');
+	parentNode.remove()
 
 	// если удалили задачи, то вернем список пуст
 	if (tasksList.children.length === 1) {
@@ -67,10 +61,12 @@ function deleteTask(e) {
 }
 
 function doneTask(event) {
-	//проверка, что клик был по кнопке "задача выполнена"
-	if (event.target.dataset.action === 'done') {
-		const parentNode = event.target.closest('.list-group-item');
-		const taskTitle = parentNode.querySelector('.task-title');
-		taskTitle.classList.toggle('task-title--done');
+	//проверка, что клик НЕ был по кнопке "задача выполнена"
+	if (event.target.dataset.action !== 'done') {
+		return
 	}
+	//проверка, что клик был по кнопке "задача выполнена"
+	const parentNode = event.target.closest('.list-group-item');
+	const taskTitle = parentNode.querySelector('.task-title');
+	taskTitle.classList.toggle('task-title--done');
 }
